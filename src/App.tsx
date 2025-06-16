@@ -1,4 +1,4 @@
-import { SendHorizonal } from 'lucide-react'
+import { SendHorizonal, UserRound } from 'lucide-react'
 
 function App() {
   return (
@@ -6,14 +6,10 @@ function App() {
       <div className="bg-white/40 w-1/2 h-2/3 flex rounded-2xl flex-col shadow-xl">
         <div className="h-12/14 rounded-t-2xl px-4 pt-4 overflow-y-scroll flex flex-col gap-4">
           <div className="flex flex-row gap-4">
-            <div className="bg-white rounded-full w-12 h-12">
-              <img
-                src="https://avatars.githubusercontent.com/u/42161733?v=4"
-                className="rounded-full object-cover"
-                alt="profile picture"
-              />
+            <div className="flex items-center justify-center bg-white rounded-full w-12 h-12">
+              <UserRound />
             </div>
-            <div className="bg-white rounded-lg p-4">
+            <div className="bg-white rounded-lg p-4 w-fit">
               <p className="text-sm text-gray-700">Hello, how are you today?</p>
             </div>
           </div>

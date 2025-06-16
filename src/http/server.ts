@@ -1,5 +1,7 @@
 import fastify from 'fastify'
 
+import fastifyIO from 'fastify-socket.io'
+
 const app = fastify()
 
 app.get('/', async (request, reply) => {
