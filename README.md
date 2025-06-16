@@ -1,54 +1,41 @@
-# React + TypeScript + Vite
+# Socket IO Live Chat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project aims to test Socket.IO by creating a real-time chat application. It utilizes several modern technologies to ensure a smooth development experience:
 
-Currently, two official plugins are available:
+- **pnpm** as the package manager
+- **Tailwind CSS** for styling
+- **Node.js** for the backend
+- **Vite** as the bundler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Development Setup
 
-## Expanding the ESLint configuration
+To get started with development, follow these steps:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Install dependencies** using pnpm:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   ```sh
+   pnpm install
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. **Start the development server**:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```sh
+   pnpm dev
+   ```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+3. **Open your browser** and navigate to `http://localhost:3000` (or the port specified by Vite) to view the application.
+
+## Expanding the ESLint Configuration
+
+For production applications, consider updating the ESLint configuration for more robust type checking and stylistic rules.
+
+### Recommended Plugins
+
+- [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) for React-specific rules
+- [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React DOM specific rules
+
+Configure ESLint with type-aware and stylistic rules as needed to maintain code quality and consistency.
+
+### Deployment
+
+To deploy the application for development, simply utilize the Vite dev server as described in the development setup. For production deployment, ensure to build and serve using a suitable Node.js server setup.
