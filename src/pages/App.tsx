@@ -3,9 +3,7 @@ import { useSearchParams } from 'react-router'
 import { useApiStatus } from '../utils/fetchHttpStatus'
 import { useEffect, useRef, useState } from 'react'
 import { socket } from '../socket'
-
 import ScrollToBottom from 'react-scroll-to-bottom'
-
 import { motion } from 'motion/react'
 
 type MessageType = 'message'
@@ -23,7 +21,7 @@ interface User {
   username: string
 }
 
-// Agrupa mensagens consecutivas do mesmo autor
+// Group consecutive messages from the same author
 function groupMessages(messages: Message[]) {
   const groups: {
     type: MessageType
@@ -65,28 +63,24 @@ const MessageGroup = ({ messages }: { messages: Message[] }) => {
           minute: '2-digit',
         })
         return (
-          <div className="h-full group flex flex-row items-center gap-2">
+          <div key={msg.id} className="group flex flex-row items-center gap-2">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 20 }}
+              initial={{ opacity: 0, scale: 0.97, x: 16 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
-              key={msg.id}
-              className="bg-white rounded-lg px-4 py-2 w-fit max-w-xs shadow-md space-y-1 border border-gray-200 relative"
+              transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+              className="bg-white rounded-lg px-4 py-2 max-w-xs shadow-md space-y-1 border border-gray-200 relative"
             >
-              <div className="flex items-center gap-2">
-                {/* Só mostra username e timestamp na primeira msg do grupo */}
-                {idx === 0 && (
-                  <>
-                    <span className="font-bold text-sm text-teal-600">
-                      {msg.username}
-                    </span>
-                  </>
-                )}
-              </div>
+              {/* Show username only on the first message of the group */}
+              {idx === 0 && (
+                <span className="font-semibold text-sm text-teal-600 block mb-1">
+                  {msg.username}
+                </span>
+              )}
               <p className="text-base text-gray-800 break-words">
                 {msg.message}
               </p>
             </motion.div>
-            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-gray-700 ml-auto">
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-gray-700 ml-1">
               {hourMinute}
             </span>
           </div>
@@ -110,10 +104,9 @@ function App() {
     refresh()
   }, [refresh])
 
-  // Entrar na sala ao montar
+  // Join room on mount
   useEffect(() => {
     socket.emit('join', username)
-    // Recebe histórico de mensagens ao entrar
     socket.on('chat-history', (history: Message[]) => {
       setMessages(
         history.map((msg) => ({
@@ -131,7 +124,7 @@ function App() {
     // eslint-disable-next-line
   }, [])
 
-  // Usuários online
+  // Online users
   useEffect(() => {
     socket.on('online-users', (users: User[]) => {
       setOnlineUsers(users)
@@ -141,7 +134,7 @@ function App() {
     }
   }, [])
 
-  // Nova mensagem recebida
+  // New message
   useEffect(() => {
     socket.on('chat', (data: Message) => {
       setMessages((prev) => [
@@ -160,7 +153,6 @@ function App() {
     }
   }, [])
 
-  // Envio de mensagem
   const handleSend = () => {
     if (!input.trim()) return
     socket.emit('message', input)
@@ -168,17 +160,16 @@ function App() {
     inputRef.current?.focus()
   }
 
-  // Enter envia mensagem
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSend()
   }
 
   if (!status) {
     return (
-      <div className="bg-gradient-to-tr from-teal-400 to-yellow-200 w-screen h-screen flex justify-center items-center">
-        <div className="bg-white/40 w-1/2 h-2/3 flex rounded-2xl shadow-xl flex-col gap-4 p-4 justify-center items-center">
+      <div className="bg-gradient-to-tr from-teal-400 to-yellow-200 min-h-screen min-w-screen flex justify-center items-center">
+        <div className="bg-white/50 w-full max-w-lg h-fit min-h-[320px] flex rounded-2xl shadow-xl flex-col gap-4 p-8 justify-center items-center">
           <h1 className="text-4xl font-bold text-teal-500">Come Back Later</h1>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray-700 text-center">
             API is currently offline. Try again later.
           </p>
         </div>
@@ -186,68 +177,67 @@ function App() {
     )
   }
 
-  // Agrupa mensagens consecutivas do mesmo autor
   const grouped = groupMessages(messages)
 
   return (
-    <div className="bg-gradient-to-tr from-teal-400 to-yellow-200 w-screen h-screen flex justify-evenly items-center">
-      <div className="bg-white/40 w-1/2 h-2/3 flex rounded-2xl shadow-xl flex-col justify-center items-center">
+    <div className="bg-gradient-to-tr from-teal-400 to-yellow-200 min-h-screen min-w-screen flex justify-center items-center">
+      <div className="bg-white/50 w-full max-w-2xl h-[600px] flex rounded-2xl shadow-xl flex-col justify-center items-center mx-4">
         <div className="h-full w-full flex flex-col">
-          <div className="h-3/28 rounded-t-2xl p-4 bg-white/85 shadow-md flex flex-row gap-4 items-center">
-            <h1 className="font-bold">Global Chat</h1>
+          <div className="h-16 rounded-t-2xl p-4 bg-white/90 shadow flex flex-row gap-4 items-center">
+            <h1 className="font-bold text-lg">Global Chat</h1>
           </div>
-          <ScrollToBottom className="h-21/28 rounded-t-2xl px-4 pt-4 overflow-y-scroll flex flex-col gap-4">
-            <div className="pb-4">
-              {grouped.map((group, idx) => (
-                <MessageGroup
-                  key={group.messages[0].id}
-                  messages={group.messages}
-                />
+          <ScrollToBottom className="flex-1 px-4 overflow-y-auto">
+            <div className="pb-2">
+              {grouped.map((group) => (
+                <div key={group.messages[0].id} className="mb-4">
+                  <MessageGroup messages={group.messages} />
+                </div>
               ))}
             </div>
           </ScrollToBottom>
-          <div className="h-4/28 rounded-b-2xl p-4 bg-white/85">
-            <div className="flex flex-row h-full w-full border-2 border-teal-400 p-2 rounded-lg">
+          <div className="h-20 rounded-b-2xl p-4 bg-white/90">
+            <div className="flex flex-row h-full w-full border border-teal-400 p-2 rounded-lg bg-white/80">
               <input
                 ref={inputRef}
                 type="text"
-                className="w-full rounded-sm outline-none"
+                className="w-full rounded-sm outline-none px-2 py-1 bg-transparent text-base"
                 id="message"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type your message..."
+                autoComplete="off"
               />
-              <div>
-                <button
-                  className="size-full text-teal-400 hover:text-teal-600 hover:cursor-pointer transition-all"
-                  onClick={handleSend}
-                  aria-label="Send message"
-                >
-                  <SendHorizonal className="size-full" />
-                </button>
-              </div>
+              <button
+                className="ml-2 text-teal-400 hover:text-teal-600 hover:scale-110 transition-all p-1"
+                onClick={handleSend}
+                aria-label="Send message"
+                type="button"
+              >
+                <SendHorizonal className="w-6 h-6" />
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <div className="h-2/3 w-1/5 flex flex-col rounded-2xl shadow-lg">
-        <div className="w-full h-3/28 bg-white/85 rounded-t-2xl shadow-md p-4 items-center flex flex-row justify-between">
-          <h1 className="font-bold">Connected Users</h1>
-          <span className="text-zinc-500 text-sm">
+      <div className="h-[600px] w-64 flex flex-col rounded-2xl shadow-lg bg-white/50 mx-4">
+        <div className="w-full h-16 bg-white/90 rounded-t-2xl shadow flex flex-row items-center justify-between px-4">
+          <h1 className="font-bold text-base">Connected Users</h1>
+          <span className="text-zinc-500 text-xs">
             {onlineUsers.length === 1
               ? `${onlineUsers.length} User Online`
               : `${onlineUsers.length} Users Online`}
           </span>
         </div>
-        <div className="w-full h-25/28 bg-white/24 rounded-b-2xl">
-          <ul className="h-full w-full overflow-y-scroll p-4 space-y-4">
+        <div className="flex-1 rounded-b-2xl overflow-y-auto">
+          <ul className="h-full w-full p-4 space-y-3">
             {onlineUsers.map((user) => (
               <li key={user.id}>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white w-full p-4 rounded-xl"
+                  transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+                  className="bg-white w-full p-3 rounded-xl text-gray-800 text-sm shadow-sm truncate"
                 >
                   {user.username}
                 </motion.div>
