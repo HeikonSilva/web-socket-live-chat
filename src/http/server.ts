@@ -28,7 +28,6 @@ const app = Fastify().withTypeProvider<TypeBoxTypeProvider>()
 
 await app.register(fastifyCors, {
   origin: `http://${FRONT_HOST}:${FRONT_PORT}`,
-  methods: ['*'],
 })
 
 await app.register(fastifySwagger, {
@@ -51,7 +50,6 @@ await app.register(fastifyAutoload, {
 await app.register(fastifySocketIO, {
   cors: {
     origin: `http://${FRONT_HOST}:${FRONT_PORT}`,
-    methods: ['*'],
   },
 })
 
