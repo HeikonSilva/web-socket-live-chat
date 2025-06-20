@@ -95,7 +95,7 @@ O WebSocket é um protocolo de comunicação bidirecional e persistente entre cl
 Ao acessar o frontend, o React instancia um socket (com o socket.io-client) e inicia a conexão com o backend Fastify. Assim que a conexão é estabelecida, o frontend emite um evento `join` enviando o nome de usuário.
 
 ```js
-// Frontend: src//pages/App.tsx
+// Frontend: src/pages/App.tsx
 useEffect(() => {
   socket.emit('join', username)
   // ...
@@ -166,7 +166,7 @@ Sem WebSocket, a aplicação teria que recorrer a técnicas ineficientes como "p
 
 - Chat em tempo real entre múltiplos usuários conectados
 - Auto scroll para a última mensagem recebida
-- Interface responsiva e animada
+- Interface dinamica e moderna
 
 ## Limitações e Possíveis Melhorias
 
