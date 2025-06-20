@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "dev-server": "tsx watch ./src/http/server.ts",
-    "generate": "tsx ./scripts/apigen.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -18,10 +17,10 @@
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.3",
     "@fastify/type-provider-typebox": "^5.1.0",
-    "@hey-api/openapi-ts": "^0.74.0",
     "@sinclair/typebox": "^0.34.35",
     "@tailwindcss/vite": "^4.1.10",
     "add": "^2.0.6",
+    "axios": "^1.10.0",
     "dotenv": "^16.5.0",
     "fastify": "^5.4.0",
     "lucide-react": "^0.515.0",
@@ -40,6 +39,7 @@
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@types/react-scroll-to-bottom": "^4.2.5",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",

@@ -187,7 +187,7 @@ function App() {
             <h1 className="font-bold text-lg">Global Chat</h1>
           </div>
           <ScrollToBottom className="flex-1 px-4 overflow-y-auto">
-            <div className="pb-2">
+            <div className="pb-2 pt-4">
               {grouped.map((group) => (
                 <div key={group.messages[0].id} className="mb-4">
                   <MessageGroup messages={group.messages} />
