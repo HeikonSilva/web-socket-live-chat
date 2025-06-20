@@ -4,6 +4,10 @@ import { useApiStatus } from '../utils/fetchHttpStatus'
 import { useEffect, useRef, useState } from 'react'
 import { socket } from '../socket'
 
+import ScrollToBottom from 'react-scroll-to-bottom'
+
+import { motion } from 'motion/react'
+
 type MessageType = 'message'
 interface Message {
   id: number
@@ -61,30 +65,30 @@ const MessageGroup = ({ messages }: { messages: Message[] }) => {
           minute: '2-digit',
         })
         return (
-          <div
-            key={msg.id}
-            className="group bg-white rounded-lg px-4 py-2 w-fit max-w-xs shadow-md space-y-1 border border-gray-200 relative"
-          >
-            <div className="flex items-center gap-2">
-              {/* Só mostra username e timestamp na primeira msg do grupo */}
-              {idx === 0 && (
-                <>
-                  <span className="font-bold text-sm text-teal-600">
-                    {msg.username}
-                  </span>
-                  <span className="text-xs text-gray-400 ml-auto">
-                    {hourMinute}
-                  </span>
-                </>
-              )}
-            </div>
-            <p className="text-base text-gray-800 break-words">{msg.message}</p>
-            {/* Timestamp flutuante nas demais msgs do grupo */}
-            {idx !== 0 && (
-              <span className="absolute right-3 top-2 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                {hourMinute}
-              </span>
-            )}
+          <div className="h-full group flex flex-row items-center gap-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              key={msg.id}
+              className="bg-white rounded-lg px-4 py-2 w-fit max-w-xs shadow-md space-y-1 border border-gray-200 relative"
+            >
+              <div className="flex items-center gap-2">
+                {/* Só mostra username e timestamp na primeira msg do grupo */}
+                {idx === 0 && (
+                  <>
+                    <span className="font-bold text-sm text-teal-600">
+                      {msg.username}
+                    </span>
+                  </>
+                )}
+              </div>
+              <p className="text-base text-gray-800 break-words">
+                {msg.message}
+              </p>
+            </motion.div>
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-gray-700 ml-auto">
+              {hourMinute}
+            </span>
           </div>
         )
       })}
@@ -192,14 +196,16 @@ function App() {
           <div className="h-3/28 rounded-t-2xl p-4 bg-white/85 shadow-md flex flex-row gap-4 items-center">
             <h1 className="font-bold">Global Chat</h1>
           </div>
-          <div className="h-21/28 rounded-t-2xl p-4 overflow-y-scroll flex flex-col gap-4">
-            {grouped.map((group, idx) => (
-              <MessageGroup
-                key={group.messages[0].id}
-                messages={group.messages}
-              />
-            ))}
-          </div>
+          <ScrollToBottom className="h-21/28 rounded-t-2xl px-4 pt-4 overflow-y-scroll flex flex-col gap-4">
+            <div className="pb-4">
+              {grouped.map((group, idx) => (
+                <MessageGroup
+                  key={group.messages[0].id}
+                  messages={group.messages}
+                />
+              ))}
+            </div>
+          </ScrollToBottom>
           <div className="h-4/28 rounded-b-2xl p-4 bg-white/85">
             <div className="flex flex-row h-full w-full border-2 border-teal-400 p-2 rounded-lg">
               <input
@@ -238,9 +244,13 @@ function App() {
           <ul className="h-full w-full overflow-y-scroll p-4 space-y-4">
             {onlineUsers.map((user) => (
               <li key={user.id}>
-                <div className="bg-white w-full p-4 rounded-xl">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-white w-full p-4 rounded-xl"
+                >
                   {user.username}
-                </div>
+                </motion.div>
               </li>
             ))}
           </ul>
