@@ -1,4 +1,4 @@
-import type { FastifyTypedInstance } from '../types'
+import type { FastifyTypedInstance } from './types'
 
 interface Message {
   id: number

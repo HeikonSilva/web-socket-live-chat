@@ -17,6 +17,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 import fastifySocketIO from '@ericedouard/fastify-socket.io'
+import Chat from './chat'
 
 const BACK_HOST = process.env.VITE_BACK_HOST
 const BACK_PORT = Number(process.env.VITE_BACK_PORT)
@@ -52,6 +53,8 @@ await app.register(fastifySocketIO, {
     origin: `http://${FRONT_HOST}:${FRONT_PORT}`,
   },
 })
+
+await app.register(Chat)
 
 app.listen({ port: BACK_PORT, host: BACK_HOST }, (err, address) => {
   if (err) {
