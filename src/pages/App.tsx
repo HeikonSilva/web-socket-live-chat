@@ -180,8 +180,8 @@ function App() {
   const grouped = groupMessages(messages)
 
   return (
-    <div className="bg-gradient-to-tr from-teal-400 to-yellow-200 min-h-screen min-w-screen flex justify-center items-center">
-      <div className="bg-white/50 w-full max-w-2xl h-[600px] flex rounded-2xl shadow-xl flex-col justify-center items-center mx-4">
+    <div className="bg-gradient-to-tr from-teal-400 to-yellow-200 min-h-screen min-w-screen flex sm:flex-row flex-col p-4 gap-4 justify-center items-center">
+      <div className="bg-white/50 w-full max-w-2xl h-[600px] flex rounded-2xl shadow-xl flex-col justify-center items-center">
         <div className="h-full w-full flex flex-col">
           <div className="h-16 rounded-t-2xl p-4 bg-white/90 shadow flex flex-row gap-4 items-center">
             <h1 className="font-bold text-lg">Global Chat</h1>
@@ -220,7 +220,7 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="h-[600px] w-64 flex flex-col rounded-2xl shadow-lg bg-white/50 mx-4">
+      <div className="h-[600px] sm:w-64 w-full flex flex-col rounded-2xl shadow-lg bg-white/50">
         <div className="w-full h-16 bg-white/90 rounded-t-2xl shadow flex flex-row items-center justify-between px-4">
           <h1 className="font-bold text-base">Connected Users</h1>
           <span className="text-zinc-500 text-xs">

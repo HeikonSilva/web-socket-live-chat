@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
+  - '@ericedouard/fastify-socket.io'
   - '@tailwindcss/oxide'
   - core-js
   - core-js-pure
